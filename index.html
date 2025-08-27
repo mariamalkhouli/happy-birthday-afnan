@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Afnan! 🎉</title>
+  <!-- Cute Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@600&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb);
+      font-family: 'Baloo 2', cursive;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: white;
+      margin: 15px;
+      opacity: 0;
+      transform: scale(0.5) rotateY(90deg);
+      transition: all 1s ease;
+    }
+
+    .show {
+      opacity: 1;
+      transform: scale(1) rotateY(0);
+    }
+
+    .glow {
+      font-family: 'Pacifico', cursive;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #ff4da6, 0 0 20px #ff4da6; }
+      to { text-shadow: 0 0 20px #ff3399, 0 0 30px #ff66cc, 0 0 40px #ff3399; }
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      color: red;
+      font-size: 20px;
+      animation: floatUp 6s linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-600px) scale(0.5); opacity: 0; }
+    }
+
+    .big-heart {
+      font-size: 200px;   /* 🔥 made much bigger */
+      margin: 20px;
+      animation: pulse 1.5s infinite;
+      color: hotpink;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3) rotate(10deg); }
+      100% { transform: scale(1); }
+    }
+
+    .hidden { display: none; }
+
+    button {
+      background: white;
+      border: none;
+      padding: 15px 35px;
+      border-radius: 30px;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 25px;
+      font-family: 'Fredoka One', cursive;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    /* Confetti styling */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: hsl(var(--hue), 100%, 50%);
+      top: -10px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Bunny image */
+    .bunny {
+      width: 180px;
+      margin: 20px auto;
+      display: none;
+      animation: bounce 1s ease;
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(0.5) translateY(100px); opacity: 0; }
+      60% { transform: scale(1.2) translateY(-20px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Opening big heart -->
+  <div id="openingHeart" class="big-heart">💖</div>
+
+  <!-- Bunny (shows after heart opens) -->
+  <img id="bunny" class="bunny" src="https://pngimg.com/uploads/rabbit/rabbit_PNG3785.png" alt="Cute Bunny">
+
+  <!-- Slides with fun wishes -->
+  <h1 id="slide1" class="glow">🎂 Happy 22nd Birthday Afnan 🎉</h1>
+  <h2 id="slide2">🌸 May your day be filled with laughter & love 💕</h2>
+  <h2 id="slide3">✨ You shine brighter than all the candles 🎂</h2>
+  <h2 id="slide4">🌈 Wishing you endless joy, hugs & sweet surprises 🎁</h2>
+  <h2 id="slide5" class="glow">💌 From, Mariam 💕</h2>
+
+  <button id="nextBtn" class="hidden">Click Me 🎈🎁</button>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-littleidea.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Sound Effect -->
+  <audio id="popSound">
+    <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const openingHeart = document.getElementById('openingHeart');
+    const bunny = document.getElementById('bunny');
+    const nextBtn = document.getElementById('nextBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    const popSound = document.getElementById('popSound');
+
+    const slides = [
+      document.getElementById('slide1'),
+      document.getElementById('slide2'),
+      document.getElementById('slide3'),
+      document.getElementById('slide4'),
+      document.getElementById('slide5')
+    ];
+
+    let currentSlide = -1;
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    function createConfetti() {
+      for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.setProperty('--hue', Math.floor(Math.random() * 360));
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+
+    // 🎉 Opening heart click → reveal bunny + start slides
+    openingHeart.addEventListener('click', () => {
+      popSound.play();
+      bgMusic.play().catch(()=>{});
+
+      // Hide heart
+      openingHeart.style.display = 'none';
+
+      // Show bunny + first slide
+      bunny.style.display = 'block';
+      slides[0].classList.add('show');
+      nextBtn.classList.remove('hidden');
+
+      // Hearts floating effect
+      for (let i = 0; i < 20; i++) {
+        setTimeout(createHeart, i * 150);
+      }
+    });
+
+    // 🎉 Button continues with slides
+    nextBtn.addEventListener('click', () => {
+      currentSlide++;
+
+      if (currentSlide < slides.length - 1) {
+        slides[currentSlide + 1].classList.add('show');
+
+        if (currentSlide + 1 === slides.length - 1) {
+          nextBtn.textContent = "Keep Clicking for More Surprises 🎉";
+        }
+
+      } else {
+        // only surprises now
+        createConfetti();
+        for (let i = 0; i < 20; i++) {
+          setTimeout(createHeart, i * 120);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
